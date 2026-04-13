@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FXPro Arabia | الفوركس الاحترافي بالعربي</title>
+<meta name="description" content="أفضل موقع عربي للفوركس — مؤشرات، روبوتات تداول، مقارنة شركات، وأخبار أوتوماتيكية يومية">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold-l:#E8C97A;--gold-d:rgba(201,168,76,.15);
+  --green:#00C896;--green-d:rgba(0,200,150,.12);
+  --red:#FF4F4F;--blue:#378ADD;
+  --bg:#0A0C10;--bg2:#0F1218;--bg3:#141820;--bg4:#1A2030;
+  --border:rgba(255,255,255,.07);--border2:rgba(201,168,76,.25);
+  --text:#F0F2F5;--text2:#8B93A3;--text3:#5A6275;
+  --font:'Cairo',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --r:12px;--rl:18px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{position:fixed;top:0;right:0;left:0;z-index:1000;background:rgba(10,12,16,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.logo{font-size:20px;font-weight:900;letter-spacing:-.5px}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{display:block;padding:7px 12px;font-size:13px;font-weight:500;color:var(--text2);border-radius:8px;transition:all .2s;cursor:pointer}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--bg4)}
+.nav-cta{background:var(--gold-d)!important;border:1px solid var(--border2)!important;color:var(--gold)!important}
+.nav-cta:hover{background:var(--gold)!important;color:#080A0E!important}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+
+/* TICKER */
+.ticker-wrap{position:fixed;top:60px;right:0;left:0;z-index:999;background:var(--bg2);border-bottom:1px solid var(--border);height:30px;overflow:hidden}
+.ticker-track{display:flex;align-items:center;height:100%;animation:tick 35s linear infinite;white-space:nowrap}
+.tick-item{display:inline-flex;align-items:center;gap:7px;padding:0 20px;font-family:var(--mono);font-size:11px;border-right:1px solid var(--border)}
+.tick-pair{color:var(--text2)}
+.tick-val{color:var(--text);font-weight:500}
+.tick-up{color:var(--green)}
+.tick-dn{color:var(--red)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{display:none;padding:110px 0 60px;min-height:100vh}
+section.active{display:block}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+
+/* HERO */
+#hero{background:var(--bg);position:relative;overflow:hidden;padding:150px 0 80px}
+.h-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04)1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04)1px,transparent 1px);background-size:55px 55px}
+.h-glow{position:absolute;top:5%;right:-5%;width:450px;height:450px;background:radial-gradient(circle,rgba(201,168,76,.07)0%,transparent 70%);border-radius:50%}
+.h-glow2{position:absolute;bottom:0;left:-5%;width:350px;height:350px;background:radial-gradient(circle,rgba(0,200,150,.05)0%,transparent 70%);border-radius:50%}
+.h-content{position:relative;z-index:2}
+.h-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--gold-d);border:1px solid var(--border2);border-radius:100px;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:24px}
+.h-badge::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1.hero-t{font-size:clamp(34px,5vw,60px);font-weight:900;line-height:1.15;margin-bottom:18px;letter-spacing:-1px}
+h1.hero-t .g{color:var(--gold)}
+.hero-sub{font-size:17px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:36px}
+.h-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 26px;border-radius:var(--r);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn-gold{background:var(--gold);color:#080A0E}
+.btn-gold:hover{background:var(--gold-l);transform:translateY(-1px)}
+.btn-out{background:transparent;border:1px solid var(--border2);color:var(--gold)}
+.btn-out:hover{background:var(--gold-d)}
+.h-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-top:52px}
+.h-stat{background:var(--bg2);padding:20px;text-align:center}
+.h-stat-n{font-family:var(--mono);font-size:26px;font-weight:900;color:var(--gold)}
+.h-stat-l{font-size:12px;color:var(--text2);margin-top:3px}
+.h-features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+.h-feat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:22px;transition:all .2s}
+.h-feat:hover{border-color:var(--border2);transform:translateY(-2px)}
+.h-feat-ic{width:42px;height:42px;border-radius:10px;background:var(--gold-d);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+.h-feat h3{font-size:14px;font-weight:700;margin-bottom:5px}
+.h-feat p{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* SECTION HEADER */
+.sec-hd{text-align:center;margin-bottom:44px}
+.sec-tag{display:inline-block;padding:4px 14px;background:var(--gold-d);border:1px solid var(--border2);border-radius:100px;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:14px}
+.sec-title{font-size:clamp(22px,3vw,34px);font-weight:900;letter-spacing:-.5px;margin-bottom:10px}
+.sec-sub{font-size:14px;color:var(--text2);max-width:500px;margin:0 auto;line-height:1.6}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.3px}
+.bg{background:var(--green-d);color:var(--green);border:1px solid rgba(0,200,150,.2)}
+.ba{background:var(--gold-d);color:var(--gold);border:1px solid var(--border2)}
+.bb{background:rgba(55,138,221,.1);color:var(--blue);border:1px solid rgba(55,138,221,.2)}
+.br{background:rgba(255,79,79,.1);color:var(--red);border:1px solid rgba(255,79,79,.2)}
+
+/* BROKERS */
+.brokers-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.bk-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:26px;transition:all .25s;position:relative;overflow:hidden}
+.bk-card::before{content:'';position:absolute;top:0;right:0;left:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .25s}
+.bk-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.bk-card:hover::before{opacity:1}
+.bk-hd{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.bk-logo{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:#fff;flex-shrink:0}
+.bk-info h3{font-size:17px;font-weight:700;margin-bottom:3px}
+.bk-stars{color:var(--gold);font-size:13px}
+.bk-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.bk-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px}
+.bk-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.bk-spec{background:var(--bg3);padding:9px;text-align:center}
+.bk-spec-v{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--gold)}
+.bk-spec-l{font-size:10px;color:var(--text3);margin-top:2px}
+.bk-cta{display:block;width:100%;padding:12px;background:var(--gold);color:#080A0E;border:none;border-radius:10px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.bk-cta:hover{background:var(--gold-l);transform:translateY(-1px)}
+
+/* ITEMS GRID */
+.items-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.item-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:20px;transition:all .2s}
+.item-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.item-ic{width:40px;height:40px;border-radius:10px;background:var(--gold-d);display:flex;align-items:center;justify-content:center;font-size:20px}
+.item-price{font-family:var(--mono);font-size:12px;padding:3px 9px;border-radius:6px}
+.p-free{background:var(--green-d);color:var(--green)}
+.p-paid{background:var(--gold-d);color:var(--gold)}
+.item-card h3{font-size:14px;font-weight:700;margin-bottom:7px}
+.item-card p{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.item-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.item-tag{font-size:10px;padding:2px 7px;border-radius:4px;background:var(--bg4);color:var(--text3);border:1px solid var(--border)}
+.item-btn{display:block;width:100%;padding:9px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);font-family:var(--font);font-size:12px;cursor:pointer;text-align:center;transition:all .2s}
+.item-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-d)}
+
+/* NEWS */
+.news-layout{display:grid;grid-template-columns:1fr 320px;gap:22px}
+.news-feat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+.news-feat-img{height:180px;background:linear-gradient(135deg,var(--bg3),var(--bg4));display:flex;align-items:center;justify-content:center;font-size:48px;position:relative}
+.news-feat-cat{position:absolute;bottom:12px;right:12px;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700}
+.news-feat-body{padding:20px}
+.news-feat-body h2{font-size:18px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.news-feat-body p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px}
+.news-meta{font-size:11px;color:var(--text3);display:flex;gap:10px}
+.news-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;max-height:600px;overflow-y:auto}
+.news-item{background:var(--bg2);padding:14px;display:flex;gap:10px;cursor:pointer;transition:background .2s}
+.news-item:hover{background:var(--bg3)}
+.news-bar{width:3px;flex-shrink:0;border-radius:2px;align-self:stretch}
+.news-item-body h4{font-size:12px;font-weight:600;margin-bottom:4px;line-height:1.4}
+.news-item-body span{font-size:10px;color:var(--text3)}
+.news-grid2{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.mini-news{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .2s}
+.mini-news:hover{border-color:var(--border2)}
+.mini-news h4{font-size:13px;font-weight:600;margin-bottom:6px;line-height:1.4}
+.mini-news span{font-size:11px;color:var(--text3)}
+
+/* ADMIN */
+.admin-wrap{display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:start}
+.admin-side{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+.admin-side-hd{padding:18px;border-bottom:1px solid var(--border)}
+.admin-side-hd h3{font-size:14px;font-weight:700}
+.admin-side-hd p{font-size:11px;color:var(--text3);margin-top:2px}
+.admin-menu{padding:8px}
+.admin-mi{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;margin-bottom:2px}
+.admin-mi:hover{background:var(--bg3);color:var(--text)}
+.admin-mi.active{background:var(--gold-d);color:var(--gold)}
+.admin-main{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:26px}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.adm-stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.adm-stat-n{font-family:var(--mono);font-size:20px;font-weight:500}
+.adm-stat-l{font-size:11px;color:var(--text2);margin-top:3px}
+.adm-stat-t{font-size:10px;margin-top:5px}
+.t-up{color:var(--green)}
+.t-dn{color:var(--red)}
+.ai-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rl);padding:22px;margin-bottom:18px}
+.ai-box-hd{display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.ai-ic{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#7B2FFF,#00C896);display:flex;align-items:center;justify-content:center;font-size:16px}
+.ai-box-hd h3{font-size:15px;font-weight:700}
+.ai-steps{display:flex;gap:7px;margin-bottom:18px}
+.ai-step{flex:1;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:10px 7px;text-align:center;font-size:11px}
+.ai-step-n{width:22px;height:22px;border-radius:50%;background:var(--gold-d);border:1px solid var(--border2);color:var(--gold);font-family:var(--mono);font-size:11px;display:flex;align-items:center;justify-content:center;margin:0 auto 5px}
+.ai-step p{color:var(--text2);line-height:1.3}
+.ai-row{display:flex;gap:8px;margin-bottom:12px}
+.ai-input{flex:1;padding:10px 13px;background:var(--bg4);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;transition:border-color .2s}
+.ai-input:focus{border-color:var(--gold)}
+.ai-input::placeholder{color:var(--text3)}
+select.ai-input{cursor:pointer}
+.ai-btn{padding:10px 18px;background:var(--gold);color:#080A0E;border:none;border-radius:9px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s}
+.ai-btn:hover{background:var(--gold-l)}
+.ai-btn:disabled{opacity:.5;cursor:not-allowed}
+.prog-wrap{display:none;margin-bottom:14px}
+.prog-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:2px;width:0%;transition:width .4s ease}
+.prog-lbl{font-size:11px;color:var(--text3);margin-top:7px}
+.ai-result{display:none;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r);padding:18px}
+.ai-result-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ai-result-hd h4{font-size:13px;font-weight:700;color:var(--gold)}
+.fld-lbl{display:block;font-size:10px;font-weight:700;color:var(--text3);margin-bottom:5px;letter-spacing:.5px;text-transform:uppercase}
+.fld-in{width:100%;padding:9px 11px;margin-bottom:12px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--font);font-size:13px;font-weight:600;outline:none}
+.fld-in:focus{border-color:var(--gold)}
+.fld-ta{width:100%;padding:11px 13px;margin-bottom:12px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text2);font-family:var(--font);font-size:13px;line-height:1.7;min-height:130px;resize:vertical;outline:none}
+.fld-ta:focus{border-color:var(--gold)}
+.ai-actions{display:flex;gap:7px}
+.bs{padding:8px 16px;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.bs-gold{background:var(--gold);color:#080A0E}
+.bs-gold:hover{background:var(--gold-l)}
+.bs-out{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.bs-out:hover{border-color:var(--gold);color:var(--gold)}
+.posts-list{margin-top:18px}
+.posts-list h4{font-size:14px;font-weight:700;margin-bottom:10px}
+.post-row{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:var(--bg4);border:1px solid var(--border);border-radius:8px;margin-bottom:7px}
+.pr-title{font-size:13px;font-weight:500}
+.pr-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.pr-status{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px}
+.st-pub{background:var(--green-d);color:var(--green)}
+.st-dft{background:var(--gold-d);color:var(--gold)}
+.st-rev{background:rgba(55,138,221,.1);color:var(--blue)}
+.api-note{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:13px;color:var(--text2);line-height:1.6}
+.api-note strong{color:var(--gold)}
+
+/* LOADING SKELETON */
+.skeleton{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--r)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{height:200px;margin-bottom:12px}
+
+/* NOTIFICATION */
+.notif{position:fixed;bottom:24px;left:24px;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;transform:translateY(100px);transition:transform .3s;max-width:320px}
+.notif.show{transform:translateY(0)}
+.notif-ok{background:#0F6E56;color:#E1F5EE;border:1px solid rgba(0,200,150,.3)}
+.notif-err{background:#711F1F;color:#FCEBEB;border:1px solid rgba(255,79,79,.3)}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0 22px;margin-top:40px}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:28px}
+.ft-brand p{font-size:13px;color:var(--text2);line-height:1.7;margin-top:9px}
+.ft-col h4{font-size:13px;font-weight:700;margin-bottom:12px}
+.ft-col a{display:block;font-size:13px;color:var(--text2);margin-bottom:7px;transition:color .15s;cursor:pointer}
+.ft-col a:hover{color:var(--gold)}
+.ft-btm{padding-top:18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.ft-btm p{font-size:11px;color:var(--text3)}
+.disclaimer{font-size:11px;color:var(--text3);margin-top:14px;padding:11px 14px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);line-height:1.6}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:60px;right:0;left:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px;z-index:998}
+  .hamburger{display:block}
+  .h-stats{grid-template-columns:repeat(2,1fr)}
+  .h-features{grid-template-columns:1fr}
+  .brokers-grid,.items-grid{grid-template-columns:1fr}
+  .news-layout{grid-template-columns:1fr}
+  .news-grid2{grid-template-columns:1fr}
+  .admin-wrap{grid-template-columns:1fr}
+  .admin-stats{grid-template-columns:repeat(2,1fr)}
+  .ft-grid{grid-template-columns:1fr 1fr}
+  .ai-steps{flex-wrap:wrap}
+  .ai-step{min-width:calc(50% - 4px)}
+}
+@media(max-width:480px){
+  .ft-grid{grid-template-columns:1fr}
+  .admin-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">FX<span>Pro</span> Arabia</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a class="active" onclick="go('hero',this)">الرئيسية</a></li>
+    <li><a onclick="go('brokers',this)">الشركات</a></li>
+    <li><a onclick="go('indicators',this)">المؤشرات</a></li>
+    <li><a onclick="go('ea',this)">الإكسبيرت</a></li>
+    <li><a onclick="go('news',this)">الأخبار</a></li>
+    <li><a class="nav-cta" onclick="go('admin',this)">⚙ لوحة التحكم</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero" class="active">
+  <div class="h-grid"></div><div class="h-glow"></div><div class="h-glow2"></div>
+  <div class="container h-content">
+    <div class="h-badge">🔴 أسواق الفوركس مفتوحة الآن</div>
+    <h1 class="hero-t">كل ما تحتاجه<br>في <span class="g">الفوركس</span><br>بالعربي</h1>
+    <p class="hero-sub">مؤشرات احترافية، روبوتات تداول، أفضل شركات الوساطة، وأخبار السوق المحدّثة أوتوماتيكياً — في منصة واحدة.</p>
+    <div class="h-btns">
+      <a class="btn btn-gold" onclick="go('brokers',null)">اكتشف أفضل الشركات ←</a>
+      <a class="btn btn-out" onclick="go('indicators',null)">المؤشرات المجانية</a>
+    </div>
+    <div class="h-stats">
+      <div class="h-stat"><div class="h-stat-n">5+</div><div class="h-stat-l">شركة موثوقة</div></div>
+      <div class="h-stat"><div class="h-stat-n">50+</div><div class="h-stat-l">مؤشر وإكسبيرت</div></div>
+      <div class="h-stat"><div class="h-stat-n">أوتو</div><div class="h-stat-l">أخبار يومية</div></div>
+      <div class="h-stat"><div class="h-stat-n">24/7</div><div class="h-stat-l">دعم المتداولين</div></div>
+    </div>
+    <div class="h-features">
+      <div class="h-feat"><div class="h-feat-ic">📊</div><h3>مؤشرات احترافية</h3><p>مجموعة متنوعة من المؤشرات المجانية والمدفوعة لجميع أنواع المتداولين على MT4 و MT5</p></div>
+      <div class="h-feat"><div class="h-feat-ic">🤖</div><h3>روبوتات تداول ذكية</h3><p>إكسبيرت أدفايزور جاهز للتحميل يعمل بالكامل بشكل أوتوماتيكي مع إدارة مخاطر متقدمة</p></div>
+      <div class="h-feat"><div class="h-feat-ic">⚡</div><h3>أخبار أوتوماتيكية</h3><p>نظام يجلب ويترجم أخبار الفوركس من أبرز المصادر العالمية كل ساعة تلقائياً</p></div>
+    </div>
+    <div style="margin-top:44px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <h2 style="font-size:16px;font-weight:700">⚡ أحدث الأخبار</h2>
+        <a onclick="go('news',null)" style="font-size:12px;color:var(--gold);cursor:pointer">عرض الكل ←</a>
+      </div>
+      <div class="news-grid2" id="homeNews"><div class="skeleton skel-card"></div><div class="skeleton skel-card"></div><div class="skeleton skel-card"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BROKERS ==================== -->
+<section id="brokers">
+  <div class="container">
+    <div class="sec-hd">
+      <div class="sec-tag">شركات الفوركس</div>
+      <h2 class="sec-title">أفضل شركات الوساطة الموثوقة</h2>
+      <p class="sec-sub">مراجعات شاملة وموضوعية مع روابط تسجيل حصرية وأفضل العروض</p>
+    </div>
+    <div class="brokers-grid" id="brokersGrid"></div>
+  </div>
+</section>
+
+<!-- ==================== INDICATORS ==================== -->
+<section id="indicators">
+  <div class="container">
+    <div class="sec-hd">
+      <div class="sec-tag">المؤشرات</div>
+      <h2 class="sec-title">مؤشرات الفوركس الاحترافية</h2>
+      <p class="sec-sub">أقوى المؤشرات لتحسين قراراتك وزيادة دقة تداولك</p>
+    </div>
+    <div class="items-grid" id="indicatorsGrid"></div>
+    <div id="indicatorsDB" style="margin-top:22px"></div>
+  </div>
+</section>
+
+<!-- ==================== EA ==================== -->
+<section id="ea">
+  <div class="container">
+    <div class="sec-hd">
+      <div class="sec-tag">الإكسبيرت أدفايزور</div>
+      <h2 class="sec-title">روبوتات التداول الذكية</h2>
+      <p class="sec-sub">إكسبيرت أدفايزور جاهز للتحميل يتداول تلقائياً على MT4 و MT5</p>
+    </div>
+    <div class="items-grid" id="eaGrid"></div>
+    <div id="eaDB" style="margin-top:22px"></div>
+  </div>
+</section>
+
+<!-- ==================== NEWS ==================== -->
+<section id="news">
+  <div class="container">
+    <div class="sec-hd">
+      <div class="sec-tag">أخبار الفوركس</div>
+      <h2 class="sec-title">أحدث أخبار السوق</h2>
+      <p class="sec-sub">أخبار مترجمة ومحدّثة أوتوماتيكياً من أبرز مصادر الفوركس العالمية</p>
+    </div>
+    <div class="news-layout">
+      <div>
+        <div class="news-feat">
+          <div class="news-feat-img">📈<span class="news-feat-cat bg">تحليل</span></div>
+          <div class="news-feat-body">
+            <h2 id="featNewsTitle">الدولار الأمريكي يتراجع أمام سلة العملات وسط ترقب قرارات الفيدرالي الأمريكي</h2>
+            <p id="featNewsBody">يشهد الدولار الأمريكي تراجعاً ملحوظاً أمام سلة العملات الرئيسية في ظل تصاعد التوقعات بشأن احتمالية تخفيض الفيدرالي الأمريكي لأسعار الفائدة، مما يضع المتداولين في حالة انتظار لأي تصريحات من المسؤولين.</p>
+            <div class="news-meta"><span>🕐 <span id="featNewsTime">منذ ساعتين</span></span><span>•</span><span id="featNewsSource">تحليل اقتصادي</span></div>
+          </div>
+        </div>
+        <div class="news-grid2" id="moreNews"></div>
+      </div>
+      <div class="news-list" id="newsSidebar">
+        <div style="padding:20px;text-align:center;color:var(--text3);font-size:13px">جاري تحميل الأخبار...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ADMIN ==================== -->
+<section id="admin">
+  <div class="container">
+    <div class="admin-wrap">
+      <div class="admin-side">
+        <div class="admin-side-hd">
+          <h3>⚙ لوحة التحكم</h3>
+          <p>إدارة المحتوى بالذكاء الاصطناعي</p>
+        </div>
+        <div class="admin-menu">
+          <div class="admin-mi active" onclick="adminTab(this,'tab-ai')"><span>🤖</span> النشر بالذكاء الاصطناعي</div>
+          <div class="admin-mi" onclick="adminTab(this,'tab-posts')"><span>📝</span> المقالات المنشورة</div>
+          <div class="admin-mi" onclick="adminTab(this,'tab-news-admin')"><span>📰</span> إدارة الأخبار</div>
+          <div class="admin-mi" onclick="adminTab(this,'tab-cron')"><span>⏰</span> جلب الأخبار يدوياً</div>
+          <div class="admin-mi" onclick="adminTab(this,'tab-setup')"><span>🔧</span> الإعداد والمتطلبات</div>
+        </div>
+      </div>
+      <div class="admin-main">
+        <div class="admin-stats">
+          <div class="adm-stat"><div class="adm-stat-n" id="statPosts" style="color:var(--gold)">—</div><div class="adm-stat-l">مقال منشور</div><div class="adm-stat-t t-up">تحديث تلقائي</div></div>
+          <div class="adm-stat"><div class="adm-stat-n" id="statDrafts" style="color:#64A0FF">—</div><div class="adm-stat-l">مسودة</div></div>
+          <div class="adm-stat"><div class="adm-stat-n" id="statNews" style="color:var(--green)">—</div><div class="adm-stat-l">خبر أوتوماتيكي</div><div class="adm-stat-t t-up">كل ساعة</div></div>
+          <div class="adm-stat"><div class="adm-stat-n" style="color:var(--gold)">4</div><div class="adm-stat-l">مصدر أخبار</div></div>
+        </div>
+
+        <!-- TAB: AI Publish -->
+        <div id="tab-ai">
+          <div class="api-note">
+            <strong>⚙ إعداد مطلوب:</strong> لتفعيل الذكاء الاصطناعي، أضف <strong>CLAUDE_API_KEY</strong> في متغيرات Vercel البيئية.<br>
+            يمكنك الحصول على المفتاح من <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold)">console.anthropic.com</a>
+          </div>
+          <div class="ai-box">
+            <div class="ai-box-hd"><div class="ai-ic">🤖</div><h3>نظام النشر بالذكاء الاصطناعي</h3></div>
+            <div class="ai-steps">
+              <div class="ai-step"><div class="ai-step-n">1</div><p>أدخل رابط المنتج</p></div>
+              <div class="ai-step"><div class="ai-step-n">2</div><p>جلب المحتوى</p></div>
+              <div class="ai-step"><div class="ai-step-n">3</div><p>صياغة بالـ AI</p></div>
+              <div class="ai-step"><div class="ai-step-n">4</div><p>مراجعة ونشر</p></div>
+            </div>
+            <div class="ai-row">
+              <select class="ai-input" id="aiCat" style="max-width:150px">
+                <option value="indicators">مؤشر</option>
+                <option value="ea">إكسبيرت</option>
+                <option value="brokers">شركة وساطة</option>
+                <option value="news">خبر</option>
+              </select>
+              <input type="url" class="ai-input" id="aiUrl" placeholder="https://www.mql5.com/en/market/product/...">
+              <button class="ai-btn" id="aiRunBtn" onclick="runAI()">✦ جلب وصياغة</button>
+            </div>
+            <div class="prog-wrap" id="prog">
+              <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+              <div class="prog-lbl" id="progLbl">جارٍ المعالجة...</div>
+            </div>
+            <div class="ai-result" id="aiResult">
+              <div class="ai-result-hd">
+                <h4>✓ المقال جاهز للمراجعة</h4>
+                <span class="badge bg">SEO محسّن</span>
+              </div>
+              <label class="fld-lbl">العنوان</label>
+              <input type="text" class="fld-in" id="rTitle">
+              <label class="fld-lbl">المقال الكامل (قابل للتعديل)</label>
+              <textarea class="fld-ta" id="rBody"></textarea>
+              <label class="fld-lbl">كلمات مفتاحية</label>
+              <input type="text" class="fld-in" id="rKeywords" style="font-weight:400">
+              <div class="ai-actions">
+                <button class="bs bs-gold" onclick="savePost('published')">✦ نشر الآن</button>
+                <button class="bs bs-out" onclick="savePost('draft')">💾 حفظ مسودة</button>
+                <button class="bs bs-out" onclick="runAI()">↺ إعادة الصياغة</button>
+              </div>
+            </div>
+          </div>
+          <div class="posts-list" id="recentPostsList">
+            <h4>آخر المقالات</h4>
+            <div style="color:var(--text3);font-size:13px;padding:16px 0">جارٍ التحميل...</div>
+          </div>
+        </div>
+
+        <!-- TAB: Posts -->
+        <div id="tab-posts" style="display:none">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <h3 style="font-size:15px;font-weight:700">المقالات المنشورة</h3>
+            <button class="bs bs-gold" onclick="adminTab(document.querySelector('.admin-mi'),'tab-ai')">+ مقال جديد</button>
+          </div>
+          <div id="allPostsList"><div style="color:var(--text3);font-size:13px;padding:20px 0;text-align:center">جارٍ التحميل...</div></div>
+        </div>
+
+        <!-- TAB: News Admin -->
+        <div id="tab-news-admin" style="display:none">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:14px">الأخبار الأوتوماتيكية</h3>
+          <div id="allNewsList"><div style="color:var(--text3);font-size:13px;padding:20px 0;text-align:center">جارٍ التحميل...</div></div>
+        </div>
+
+        <!-- TAB: Cron Manual -->
+        <div id="tab-cron" style="display:none">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">جلب الأخبار يدوياً</h3>
+          <div class="api-note">
+            يُشغَّل جلب الأخبار تلقائياً كل ساعة عبر Vercel Cron.<br>
+            يمكنك تشغيله يدوياً الآن للاختبار أو لجلب أحدث الأخبار فوراً.
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px">
+            <h4 style="font-size:14px;font-weight:700;margin-bottom:8px">مصادر الأخبار النشطة</h4>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+              <div style="display:flex;align-items:center;gap:10px"><span class="badge bg">نشط</span> ForexLive — أخبار السوق اللحظية</div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="badge bg">نشط</span> FXStreet — تحليلات وتوقعات</div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="badge bg">نشط</span> Investing.com — أخبار العملات</div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="badge bg">نشط</span> DailyFX — تحليلات يومية</div>
+            </div>
+          </div>
+          <button class="btn btn-gold" id="cronBtn" onclick="runCron()" style="font-size:13px">⚡ جلب الأخبار الآن</button>
+          <div id="cronResult" style="margin-top:14px;font-size:13px;color:var(--text2)"></div>
+        </div>
+
+        <!-- TAB: Setup -->
+        <div id="tab-setup" style="display:none">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">دليل الإعداد والنشر</h3>
+          <div style="display:flex;flex-direction:column;gap:12px;font-size:13px">
+            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px">
+              <div style="font-weight:700;color:var(--gold);margin-bottom:8px">① Supabase — قاعدة البيانات</div>
+              <div style="color:var(--text2);line-height:1.7">1. افتح <strong style="color:var(--text)">supabase.com</strong> وأنشئ مشروعاً مجانياً<br>2. اذهب إلى SQL Editor وشغّل ملف <strong style="color:var(--text)">supabase-schema.sql</strong><br>3. احفظ الـ URL و Service Key من الإعدادات</div>
+            </div>
+            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px">
+              <div style="font-weight:700;color:var(--gold);margin-bottom:8px">② GitHub — رفع الكود</div>
+              <div style="color:var(--text2);line-height:1.7">1. أنشئ مستودعاً جديداً على GitHub<br>2. ارفع جميع ملفات المشروع<br>3. تأكد أن index.html في المجلد الجذر</div>
+            </div>
+            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px">
+              <div style="font-weight:700;color:var(--gold);margin-bottom:8px">③ Vercel — النشر والاستضافة</div>
+              <div style="color:var(--text2);line-height:1.7">1. افتح <strong style="color:var(--text)">vercel.com</strong> واربط حساب GitHub<br>2. استورد المستودع<br>3. أضف المتغيرات البيئية التالية:</div>
+              <div style="margin-top:10px;background:var(--bg4);border-radius:8px;padding:12px;font-family:var(--mono);font-size:12px;color:var(--text2);line-height:1.8">
+                CLAUDE_API_KEY = sk-ant-...<br>
+                SUPABASE_URL = https://xxx.supabase.co<br>
+                SUPABASE_SERVICE_KEY = eyJ...<br>
+                CRON_SECRET = اخترأي_كلمة_سر_عشوائية
+              </div>
+            </div>
+            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px">
+              <div style="font-weight:700;color:var(--green);margin-bottom:8px">✓ بعد النشر</div>
+              <div style="color:var(--text2);line-height:1.7">سيعمل الموقع على yourname.vercel.app<br>الأخبار ستُجلب تلقائياً كل ساعة<br>يمكنك ربط دومين خاص مجاناً من Vercel</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <div class="logo" style="font-size:18px">FX<span>Pro</span> Arabia</div>
+        <p>المرجع الأول عربياً في مجال الفوركس — محتوى تعليمي وتحليلي موضوعي مع أخبار أوتوماتيكية يومية.</p>
+      </div>
+      <div class="ft-col">
+        <h4>الصفحات</h4>
+        <a onclick="go('hero',null)">الرئيسية</a>
+        <a onclick="go('brokers',null)">الشركات</a>
+        <a onclick="go('indicators',null)">المؤشرات</a>
+        <a onclick="go('ea',null)">الإكسبيرت</a>
+        <a onclick="go('news',null)">الأخبار</a>
+      </div>
+      <div class="ft-col">
+        <h4>الشركات</h4>
+        <a href="https://one.exnessonelink.com/a/9kjsbuqe3e" target="_blank">Exness</a>
+        <a href="https://direct.fxpro.group/ar/partner/55016077" target="_blank">FxPro</a>
+        <a href="https://one.justmarkets.link/a/jvnpt0b3z9" target="_blank">JustMarkets</a>
+        <a href="https://tickmill.link/3OLoP4X" target="_blank">Tickmill</a>
+        <a href="https://affs.click/V1eDo" target="_blank">XM</a>
+      </div>
+      <div class="ft-col">
+        <h4>روابط مفيدة</h4>
+        <a href="#">تليغرام</a>
+        <a href="#">يوتيوب</a>
+        <a href="#">سياسة الخصوصية</a>
+        <a href="#">اتفاقية الاستخدام</a>
+      </div>
+    </div>
+    <div class="disclaimer">⚠ تحذير المخاطر: تداول الفوركس والعقود مقابل الفروقات ينطوي على مستوى عالٍ من المخاطر. المحتوى هنا لأغراض تعليمية وإعلامية فقط وليس نصيحة مالية. تأكد من فهم المخاطر قبل التداول.</div>
+    <div class="ft-btm">
+      <p>© 2024 FXPro Arabia · جميع الحقوق محفوظة</p>
+      <p style="font-family:var(--mono);font-size:10px">v2.0 — Powered by Claude AI</p>
+    </div>
+  </div>
+</footer>
+
+<div class="notif" id="notif"></div>
+
+<script>
+// ==================== STATIC DATA ====================
+const BROKERS=[
+  {name:'Exness',short:'EX',color:'#FF6600',rating:4.9,stars:'★★★★★',badges:[['مرخصة FCA','bg'],['سحب فوري','ba'],['سبريد 0.0','bb']],desc:'شركة عالمية مرخصة من أبرز الجهات التنظيمية الدولية. تتيح سحبًا فوريًا على مدار الساعة بدون عمولات، مع سبريد يبدأ من 0.0 نقطة على حسابات Raw.',specs:[{v:'0.0',l:'سبريد'},{v:'1:2000',l:'رافعة'},{v:'فوري',l:'سحب'}],link:'https://one.exnessonelink.com/a/9kjsbuqe3e'},
+  {name:'FxPro',short:'FP',color:'#003087',rating:4.8,stars:'★★★★★',badges:[['مرخصة CySEC','bb'],['18+ عاماً','ba'],['MT4/MT5','bg']],desc:'أكثر من 18 عاماً في مجال الوساطة المالية. تقدم منصات MT4/MT5/cTrader مع حماية الرصيد السلبي ورقابة من جهات متعددة.',specs:[{v:'0.3',l:'سبريد'},{v:'1:500',l:'رافعة'},{v:'1-3أيام',l:'سحب'}],link:'https://direct.fxpro.group/ar/partner/55016077'},
+  {name:'JustMarkets',short:'JM',color:'#00AA4B',rating:4.7,stars:'★★★★★',badges:[['بونص 120%','ba'],['رافعة 3000','br'],['دعم عربي','bg']],desc:'تقدم JustMarkets بونص ترحيبي يصل إلى 120% مع شروط ميسرة، دعم عربي احترافي، وسحوبات سريعة عبر وسائل الدفع المحلية.',specs:[{v:'0.0',l:'سبريد'},{v:'1:3000',l:'رافعة'},{v:'سريع',l:'سحب'}],link:'https://one.justmarkets.link/a/jvnpt0b3z9'},
+  {name:'Tickmill',short:'TM',color:'#C8102E',rating:4.7,stars:'★★★★★',badges:[['ECN خالص','br'],['تنفيذ فوري','bg'],['مرخصة FCA','bb']],desc:'وسيط ECN يوفر تنفيذاً فائق السرعة مع سبريد أقل من 0.0 نقطة على حسابات Raw. مناسب جداً للمحترفين وأصحاب استراتيجيات السكالبينغ.',specs:[{v:'0.0',l:'سبريد'},{v:'1:500',l:'رافعة'},{v:'1يوم',l:'سحب'}],link:'https://tickmill.link/3OLoP4X'},
+  {name:'XM',short:'XM',color:'#E91E8C',rating:4.6,stars:'★★★★☆',badges:[['دعم عربي','bg'],['بونص ترحيبي','ba'],['تعليم مجاني','bb']],desc:'يوفر XM حسابات تداول متنوعة مع بونص ترحيبي، دعم عربي على مدار الساعة، وندوات تعليمية مجانية باللغة العربية أسبوعياً.',specs:[{v:'0.6',l:'سبريد'},{v:'1:888',l:'رافعة'},{v:'سريع',l:'سحب'}],link:'https://affs.click/V1eDo'}
+];
+
+const INDICATORS=[
+  {ic:'📈',name:'مؤشر الاتجاه الذكي',price:'مجاني',pt:'p-free',tags:['MT4','MT5','جميع الأزواج'],desc:'يحدد اتجاه السوق تلقائياً مع إشارات دخول وخروج واضحة على جميع الأطر الزمنية.'},
+  {ic:'💡',name:'Smart Money Concepts',price:'$49',pt:'p-paid',tags:['SMC','OB','FVG'],desc:'يرسم مناطق Order Block وFair Value Gap تلقائياً بناءً على تحليل Smart Money الاحترافي.'},
+  {ic:'🎯',name:'مؤشر الفراكتل المحسّن',price:'مجاني',pt:'p-free',tags:['MT4','فراكتال','D/R'],desc:'يكتشف نقاط الارتداد الحرجة ويرسم مستويات الدعم والمقاومة مع تصفية الإشارات الضعيفة.'},
+  {ic:'🔥',name:'AI Trend Filter Pro',price:'$79',pt:'p-paid',tags:['AI','تصفية','MT5'],desc:'يدمج خوارزميات ذكاء اصطناعي لتصفية الإشارات الزائفة وتحسين دقة الدخول.'},
+  {ic:'📊',name:'Volume Profile Advanced',price:'$35',pt:'p-paid',tags:['حجم','VP','مستويات'],desc:'يحلل حجم التداول بشكل متقدم لتحديد مناطق القيمة العادلة ونقاط السيطرة في السوق.'},
+  {ic:'⚡',name:'RSI العربي المحسّن',price:'مجاني',pt:'p-free',tags:['RSI','إشارات','تنبيه'],desc:'نسخة محسّنة من RSI مع إشارات ذكية وتنبيهات تلقائية عند الوصول لمستويات مهمة.'}
+];
+
+const EAS=[
+  {ic:'🤖',name:'Trend Master EA',price:'$120',pt:'p-paid',tags:['MT4','MT5','تلقائي'],desc:'روبوت تداول يتبع الاتجاه بدقة عالية مع إدارة مخاطر متطورة، مُختبر على 10 سنوات.'},
+  {ic:'⚙',name:'Scalper Pro EA',price:'$89',pt:'p-paid',tags:['سكالبينغ','M1','M5'],desc:'متخصص في استراتيجية السكالبينغ على الأطر القصيرة مع فلاتر للأسواق المتذبذبة.'},
+  {ic:'💎',name:'Grid Master EA',price:'مجاني',pt:'p-free',tags:['شبكة','تعافٍ','MT4'],desc:'روبوت يعتمد على استراتيجية الشبكة مع نظام تعافٍ ذكي لأسواق التوطيد.'},
+  {ic:'🏆',name:'News Filter EA',price:'$65',pt:'p-paid',tags:['أخبار','MT5','فلتر'],desc:'يتوقف قبل الأخبار المهمة ويستأنف بعد استقرار السوق، يقلل المخاطر تلقائياً.'},
+  {ic:'🌙',name:'Night Scalper EA',price:'$99',pt:'p-paid',tags:['ليلي','هادئ','MT4'],desc:'يتداول خلال ساعات الهدوء الآسيوية بأمان عالٍ مع سبريد منخفض.'},
+  {ic:'🎲',name:'Martingale Lite EA',price:'مجاني',pt:'p-free',tags:['مارتينجيل','تجريبي','MT4'],desc:'نسخة مبسطة ومحدودة المخاطر من مارتينجيل مع حدود خسارة مدمجة.'}
+];
+
+const STATIC_NEWS=[
+  {title:'الدولار يتراجع أمام اليورو وسط ترقب قرارات الفيدرالي',cat:'عملات',catColor:'var(--blue)',time:'منذ ساعة'},
+  {title:'الذهب يسجل أعلى مستوياته منذ 3 أشهر عند 2340 دولار',cat:'معادن',catColor:'var(--gold)',time:'منذ ساعتين'},
+  {title:'اليورو/دولار يختبر مقاومة 1.0850 وسط بيانات التضخم',cat:'تحليل',catColor:'var(--green)',time:'منذ 3 ساعات'},
+  {title:'الاسترليني يتراجع إثر بيانات التصنيع البريطانية الضعيفة',cat:'عملات',catColor:'var(--blue)',time:'منذ 4 ساعات'},
+  {title:'الفيدرالي يبقي أسعار الفائدة دون تغيير كما هو متوقع',cat:'بنوك مركزية',catColor:'var(--red)',time:'أمس'},
+  {title:'أسعار النفط ترتفع 2.3% بعد بيانات مخزونات أقل من المتوقع',cat:'سلع',catColor:'#EF9F27',time:'أمس'}
+];
+
+// ==================== TICKER ====================
+const PAIRS=[
+  {p:'EUR/USD',v:'1.0847',c:'+0.0012',up:true},{p:'GBP/USD',v:'1.2634',c:'-0.0023',up:false},
+  {p:'USD/JPY',v:'149.82',c:'+0.34',up:true},{p:'XAU/USD',v:'2341.5',c:'+8.2',up:true},
+  {p:'USD/CAD',v:'1.3621',c:'-0.0015',up:false},{p:'AUD/USD',v:'0.6543',c:'+0.0008',up:true},
+  {p:'USD/CHF',v:'0.9012',c:'-0.0019',up:false},{p:'NZD/USD',v:'0.5987',c:'+0.0011',up:true},
+  {p:'EUR/GBP',v:'0.8589',c:'+0.0003',up:true},{p:'WTI OIL',v:'78.45',c:'+1.23',up:true}
+];
+function renderTicker(){
+  const html=PAIRS.map(p=>`<div class="tick-item"><span class="tick-pair">${p.p}</span><span class="tick-val">${p.v}</span><span class="${p.up?'tick-up':'tick-dn'}">${p.up?'▲':'▼'} ${p.c}</span></div>`).join('');
+  document.getElementById('ticker').innerHTML=html+html;
+}
+
+// ==================== RENDER ====================
+function renderBrokers(){
+  document.getElementById('brokersGrid').innerHTML=BROKERS.map(b=>`
+    <div class="bk-card">
+      <div class="bk-hd">
+        <div class="bk-logo" style="background:${b.color}">${b.short}</div>
+        <div class="bk-info"><h3>${b.name}</h3><div class="bk-stars">${b.stars} <span style="font-family:var(--mono);font-size:12px;color:var(--text2)">${b.rating}</span></div></div>
+      </div>
+      <div class="bk-badges">${b.badges.map(([l,c])=>`<span class="badge ${c}">${l}</span>`).join('')}</div>
+      <p class="bk-desc">${b.desc}</p>
+      <div class="bk-specs">${b.specs.map(s=>`<div class="bk-spec"><div class="bk-spec-v">${s.v}</div><div class="bk-spec-l">${s.l}</div></div>`).join('')}</div>
+      <a href="${b.link}" target="_blank" class="bk-cta">افتح حسابك في ${b.name} ←</a>
+    </div>`).join('');
+}
+
+function renderItems(gridId,data){
+  document.getElementById(gridId).innerHTML=data.map(it=>`
+    <div class="item-card">
+      <div class="item-top"><div class="item-ic">${it.ic}</div><span class="item-price ${it.pt}">${it.price}</span></div>
+      <h3>${it.name}</h3>
+      <p>${it.desc}</p>
+      <div class="item-tags">${it.tags.map(t=>`<span class="item-tag">${t}</span>`).join('')}</div>
+      <a class="item-btn">${it.price==='مجاني'?'تحميل مجاني':'شراء الآن'} ←</a>
+    </div>`).join('');
+}
+
+function renderStaticNews(){
+  // Sidebar
+  document.getElementById('newsSidebar').innerHTML=STATIC_NEWS.map(n=>`
+    <div class="news-item"><div class="news-bar" style="background:${n.catColor}"></div>
+    <div class="news-item-body"><h4>${n.title}</h4><span><span class="badge" style="background:rgba(255,255,255,.05);color:var(--text3);padding:1px 6px;margin-left:5px">${n.cat}</span>${n.time}</span></div></div>`).join('');
+  // Home & more
+  const cards=STATIC_NEWS.slice(0,3).map(n=>`
+    <div class="mini-news" onclick="go('news',null)">
+      <span class="badge" style="background:rgba(255,255,255,.05);color:var(--text3);display:inline-block;margin-bottom:7px">${n.cat}</span>
+      <h4>${n.title}</h4><span>${n.time}</span>
+    </div>`).join('');
+  document.getElementById('homeNews').innerHTML=cards;
+  document.getElementById('moreNews').innerHTML=STATIC_NEWS.slice(1,4).map(n=>`
+    <div class="mini-news"><h4>${n.title}</h4><span>${n.time}</span></div>`).join('');
+}
+
+// ==================== DYNAMIC NEWS from DB ====================
+async function loadNewsFromDB(){
+  try{
+    const r=await fetch('/api/content?type=news&limit=10');
+    if(!r.ok) return;
+    const {news}=await r.json();
+    if(!news||!news.length) return;
+
+    const sidebar=news.map(n=>`
+      <div class="news-item">
+        <div class="news-bar" style="background:var(--green)"></div>
+        <div class="news-item-body">
+          <h4>${n.title}</h4>
+          <span><span class="badge" style="background:rgba(255,255,255,.05);color:var(--text3);padding:1px 6px;margin-left:5px">${n.category||'فوركس'}</span>${timeAgo(n.published_at)}</span>
+        </div>
+      </div>`).join('');
+    document.getElementById('newsSidebar').innerHTML=sidebar;
+
+    if(news[0]){
+      document.getElementById('featNewsTitle').textContent=news[0].title;
+      document.getElementById('featNewsBody').textContent=news[0].excerpt||'';
+      document.getElementById('featNewsTime').textContent=timeAgo(news[0].published_at);
+      document.getElementById('featNewsSource').textContent=news[0].source||'';
+    }
+
+    const cards=news.slice(0,3).map(n=>`
+      <div class="mini-news" onclick="go('news',null)">
+        <span class="badge bg" style="display:inline-block;margin-bottom:7px">${n.category||'فوركس'}</span>
+        <h4>${n.title}</h4><span>${timeAgo(n.published_at)}</span>
+      </div>`).join('');
+    document.getElementById('homeNews').innerHTML=cards||document.getElementById('homeNews').innerHTML;
+  }catch(e){/* نستخدم البيانات الثابتة */}
+}
+
+// ==================== DYNAMIC POSTS from DB ====================
+async function loadPostsFromDB(){
+  try{
+    const r=await fetch('/api/content?type=posts&limit=6');
+    if(!r.ok) return;
+    const {posts}=await r.json();
+    if(!posts||!posts.length) return;
+
+    // add to indicators/ea sections
+    const indicators=posts.filter(p=>p.category==='indicators');
+    const ea=posts.filter(p=>p.category==='ea');
+
+    if(indicators.length){
+      document.getElementById('indicatorsDB').innerHTML=`<h3 style="font-size:15px;font-weight:700;margin-bottom:14px">مقالات المؤشرات</h3><div class="items-grid">${indicators.map(postCard).join('')}</div>`;
+    }
+    if(ea.length){
+      document.getElementById('eaDB').innerHTML=`<h3 style="font-size:15px;font-weight:700;margin-bottom:14px">مقالات الإكسبيرت</h3><div class="items-grid">${ea.map(postCard).join('')}</div>`;
+    }
+  }catch(e){}
+}
+
+function postCard(p){
+  return `<div class="item-card">
+    <div class="item-top"><div class="item-ic">📄</div><span class="badge bg" style="font-size:10px">${p.category}</span></div>
+    <h3>${p.title}</h3>
+    <p>${p.excerpt||''}</p>
+    <div class="item-tags"><span class="item-tag">${timeAgo(p.created_at)}</span></div>
+    <a class="item-btn">قراءة المقال ←</a>
+  </div>`;
+}
+
+// ==================== ADMIN STATS ====================
+async function loadAdminStats(){
+  try{
+    const r=await fetch('/api/content?type=all&limit=100');
+    if(!r.ok) return;
+    const {posts=[],news=[]}=await r.json();
+    document.getElementById('statPosts').textContent=posts.filter(p=>p.status==='published').length||0;
+    document.getElementById('statDrafts').textContent=posts.filter(p=>p.status==='draft').length||0;
+    document.getElementById('statNews').textContent=news.length||0;
+    renderRecentPosts(posts.slice(0,5));
+    renderAllPosts(posts);
+    renderAllNews(news);
+  }catch(e){
+    ['statPosts','statDrafts','statNews'].forEach(id=>document.getElementById(id).textContent='—');
+  }
+}
+
+function renderRecentPosts(posts){
+  const el=document.getElementById('recentPostsList');
+  if(!posts.length){el.innerHTML='<h4>آخر المقالات</h4><div style="color:var(--text3);font-size:13px;padding:12px 0">لا توجد مقالات بعد</div>';return}
+  el.innerHTML=`<h4>آخر المقالات</h4>`+posts.map(p=>`
+    <div class="post-row">
+      <div><div class="pr-title">${p.title}</div><div class="pr-meta">${timeAgo(p.created_at)} · ${p.category||''}</div></div>
+      <span class="pr-status ${p.status==='published'?'st-pub':p.status==='draft'?'st-dft':'st-rev'}">${p.status==='published'?'منشور':p.status==='draft'?'مسودة':'مراجعة'}</span>
+    </div>`).join('');
+}
+
+function renderAllPosts(posts){
+  const el=document.getElementById('allPostsList');
+  if(!posts.length){el.innerHTML='<div style="color:var(--text3);font-size:13px;text-align:center;padding:20px">لا توجد مقالات بعد. أضف مقالاً من قسم الذكاء الاصطناعي.</div>';return}
+  el.innerHTML=posts.map(p=>`
+    <div class="post-row">
+      <div><div class="pr-title">${p.title}</div><div class="pr-meta">${timeAgo(p.created_at)} · ${p.category||''}</div></div>
+      <span class="pr-status ${p.status==='published'?'st-pub':p.status==='draft'?'st-dft':'st-rev'}">${p.status==='published'?'منشور':p.status==='draft'?'مسودة':'مراجعة'}</span>
+    </div>`).join('');
+}
+
+function renderAllNews(news){
+  const el=document.getElementById('allNewsList');
+  if(!news.length){el.innerHTML='<div style="color:var(--text3);font-size:13px;text-align:center;padding:20px">لا توجد أخبار بعد. شغّل جلب الأخبار من تبويب الجلب اليدوي.</div>';return}
+  el.innerHTML=news.slice(0,20).map(n=>`
+    <div class="post-row">
+      <div><div class="pr-title">${n.title}</div><div class="pr-meta">${n.source||''} · ${timeAgo(n.published_at)}</div></div>
+      <span class="pr-status st-pub">منشور</span>
+    </div>`).join('');
+}
+
+// ==================== AI PUBLISH ====================
+const AI_STEPS_MSG=['جارٍ جلب محتوى الرابط...','تحليل المحتوى وفهم السياق...','إعادة الصياغة بالذكاء الاصطناعي...','تحسين SEO والكلمات المفتاحية...','تجهيز المقال للنشر...'];
+
+async function runAI(){
+  const url=document.getElementById('aiUrl').value.trim();
+  const cat=document.getElementById('aiCat').value;
+  if(!url){notify('أدخل رابط المنتج أولاً','err');return}
+
+  const btn=document.getElementById('aiRunBtn');
+  btn.disabled=true;btn.textContent='جاري المعالجة...';
+  document.getElementById('prog').style.display='block';
+  document.getElementById('aiResult').style.display='none';
+
+  // Animate progress
+  let step=0;
+  const timer=setInterval(()=>{
+    if(step<AI_STEPS_MSG.length){
+      document.getElementById('progFill').style.width=((step+1)/AI_STEPS_MSG.length*100)+'%';
+      document.getElementById('progLbl').textContent=AI_STEPS_MSG[step];
+      step++;
+    }
+  },700);
+
+  try{
+    const r=await fetch('/api/ai-publish',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({url,category:cat})
+    });
+    const data=await r.json();
+    clearInterval(timer);
+    document.getElementById('progFill').style.width='100%';
+
+    if(data.success&&data.article){
+      document.getElementById('rTitle').value=data.article.title||'';
+      document.getElementById('rBody').value=data.article.body||'';
+      document.getElementById('rKeywords').value=data.article.keywords||'';
+      document.getElementById('aiResult').style.display='block';
+      notify('✓ تم إنشاء المقال بنجاح','ok');
+    } else {
+      // Fallback: use Claude directly from browser if API not configured
+      await runAIFallback(url,cat);
+    }
+  }catch(e){
+    clearInterval(timer);
+    await runAIFallback(url,cat);
+  }
+
+  document.getElementById('prog').style.display='none';
+  btn.disabled=false;btn.textContent='✦ جلب وصياغة';
+}
+
+async function runAIFallback(url,cat){
+  const catLabel={indicators:'مؤشر فوركس',ea:'روبوت تداول',brokers:'شركة وساطة',news:'خبر فوركس'}[cat]||'منتج فوركس';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1500,
+        messages:[{role:'user',content:`أنت كاتب محتوى متخصص في الفوركس. أنشئ مقالاً احترافياً SEO عن ${catLabel} من الرابط: ${url}\nأجب فقط بـ JSON:\n{"title":"عنوان مميز","excerpt":"ملخص 100 حرف","body":"المقال كامل 400 كلمة","keywords":"5 كلمات مفتاحية"}`}]
+      })
+    });
+    const d=await r.json();
+    const txt=(d.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
+    const art=JSON.parse(txt);
+    document.getElementById('rTitle').value=art.title||'';
+    document.getElementById('rBody').value=art.body||'';
+    document.getElementById('rKeywords').value=art.keywords||'';
+    document.getElementById('aiResult').style.display='block';
+    notify('✓ تم إنشاء المقال بنجاح','ok');
+  }catch(e){
+    notify('خطأ: تأكد من إعداد API Key في Vercel','err');
+  }
+}
+
+async function savePost(status){
+  const title=document.getElementById('rTitle').value.trim();
+  const body=document.getElementById('rBody').value.trim();
+  const keywords=document.getElementById('rKeywords').value.trim();
+  const category=document.getElementById('aiCat').value;
+  const url=document.getElementById('aiUrl').value.trim();
+
+  if(!title||!body){notify('العنوان والمحتوى مطلوبان','err');return}
+
+  try{
+    const r=await fetch('/api/save-post',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({title,body,keywords,category,status,source_url:url,excerpt:body.slice(0,150)})
+    });
+    const d=await r.json();
+    if(d.success){
+      notify(status==='published'?'✓ تم النشر بنجاح!':'✓ تم الحفظ كمسودة','ok');
+      loadAdminStats();
+    }else{
+      notify('خطأ في الحفظ: '+d.error,'err');
+    }
+  }catch(e){
+    notify('خطأ في الاتصال بقاعدة البيانات','err');
+  }
+}
+
+async function runCron(){
+  const btn=document.getElementById('cronBtn');
+  btn.disabled=true;btn.textContent='جارٍ الجلب...';
+  document.getElementById('cronResult').textContent='جارٍ جلب الأخبار من المصادر العالمية...';
+  try{
+    const r=await fetch('/api/cron-news',{headers:{'authorization':`Bearer ${localStorage.getItem('cronSecret')||''}`}});
+    const d=await r.json();
+    if(d.success){
+      document.getElementById('cronResult').innerHTML=`<span style="color:var(--green)">✓ تم بنجاح — جُلب: ${d.fetched} | حُفظ: ${d.saved} | موجود مسبقاً: ${d.skipped}</span>`;
+      notify('✓ تم جلب الأخبار بنجاح','ok');
+      loadAdminStats();
+    }else{
+      document.getElementById('cronResult').innerHTML=`<span style="color:var(--red)">خطأ: ${d.error}</span>`;
+    }
+  }catch(e){
+    document.getElementById('cronResult').innerHTML=`<span style="color:var(--red)">خطأ في الاتصال</span>`;
+  }
+  btn.disabled=false;btn.textContent='⚡ جلب الأخبار الآن';
+}
+
+// ==================== NAVIGATION ====================
+function go(id,el){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(el)el.classList.add('active');
+  document.getElementById('navLinks').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='admin')loadAdminStats();
+}
+
+function adminTab(el,tabId){
+  document.querySelectorAll('.admin-mi').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('#admin [id^="tab-"]').forEach(t=>t.style.display='none');
+  el.classList.add('active');
+  document.getElementById(tabId).style.display='block';
+}
+
+// ==================== UTILS ====================
+function timeAgo(dateStr){
+  if(!dateStr) return '';
+  const d=new Date(dateStr);
+  const diff=(Date.now()-d)/1000;
+  if(diff<3600) return `منذ ${Math.floor(diff/60)} دقيقة`;
+  if(diff<86400) return `منذ ${Math.floor(diff/3600)} ساعة`;
+  if(diff<604800) return `منذ ${Math.floor(diff/86400)} يوم`;
+  return d.toLocaleDateString('ar-SA');
+}
+
+function notify(msg,type){
+  const el=document.getElementById('notif');
+  el.textContent=msg;
+  el.className=`notif notif-${type==='ok'?'ok':'err'} show`;
+  setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded',()=>{
+  renderTicker();
+  renderBrokers();
+  renderItems('indicatorsGrid',INDICATORS);
+  renderItems('eaGrid',EAS);
+  renderStaticNews();
+  // Load dynamic content
+  loadNewsFromDB();
+  loadPostsFromDB();
+});
+</script>
+</body>
+</html>

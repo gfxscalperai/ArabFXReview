@@ -1,0 +1,13 @@
+{
+  "name": "fxpro-arabia",
+  "version": "1.0.0",
+  "description": "موقع فوركس احترافي مع نشر أوتوماتيكي بالذكاء الاصطناعي",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'static site'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "rss-parser": "^3.13.0"
+  }
+}
